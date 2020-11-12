@@ -1,0 +1,22 @@
+﻿<input class="form-control"
+       placeholder="Something to do"
+       @bind="newTodo"
+       style="display: inline; width: 50%" />
+
+<button class="btn btn-primary" @onclick="AddNewTodo">Add TODO</button>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnTodoAdd { get; set; }
+
+    string newTodo;
+
+    async Task AddNewTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            await OnTodoAdd.InvokeAsync(newTodo);
+            newTodo = string.Empty;
+        }
+    }
+}

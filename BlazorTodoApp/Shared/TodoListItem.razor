@@ -1,0 +1,90 @@
+﻿<li>
+    <input id="todo-@Index"
+           type="checkbox"
+           @onchange="@((eventArgs) => OnCheckboxChange((bool)eventArgs.Value))" />
+
+    @if (isEditing)
+    {
+        <input class="form-control"
+               @bind="@editedTodo"
+               style="display: inline; width: 50%" />
+
+        <button class="btn btn-sm btn-link" @onclick="@Save">Save</button>
+    }
+    else
+    {
+        <label for="todo-@Index" style="font-size: 20px">@Todo.Title</label>
+        <button class="btn btn-sm btn-link" @onclick="@Edit">Edit</button>
+    }
+</li>
+
+@code {
+    bool isEditing;
+    string editedTodo;
+    bool shouldRender;
+
+    [Parameter]
+    public TodoItem Todo { get; set; }
+
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnTodoCheck { get; set; }
+
+    void Save()
+    {
+        if (!string.IsNullOrWhiteSpace(editedTodo))
+        {
+            // Uncomment for optimize
+            //shouldRender = true;
+            Todo.Title = editedTodo;
+            editedTodo = null;
+            isEditing = false;
+        }
+    }
+
+    void Edit()
+    {
+        // Uncomment for optimize
+        //shouldRender = true;
+        isEditing = true;
+        editedTodo = Todo.Title;
+    }
+
+    async Task OnCheckboxChange(bool isDone)
+    {
+        Todo.IsDone = isDone;
+
+        // Uncomment for optimize
+        //shouldRender = true;
+        await OnTodoCheck.InvokeAsync(isDone);
+    }
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        // Uncomment for optimize
+        //if (parameters.TryGetValue<TodoItem>(nameof(TodoListItem.Todo), out var newTodo) && newTodo != null)
+        //{
+        //    if (Todo != null && (newTodo.IsDone != Todo.IsDone || newTodo.Title != Todo.Title))
+        //    {
+        //        // allow render the component when it's changed from outside
+        //        shouldRender = true;
+        //    }
+        //}
+
+        return base.SetParametersAsync(parameters);
+    }
+
+    protected override bool ShouldRender()
+    {
+        // Uncomment for optimize
+        //var currentShouldRender = shouldRender;
+        //shouldRender = false;
+
+        var currentShouldRender = base.ShouldRender();
+
+        Console.WriteLine("TodoListItem ShouldRender " + currentShouldRender);
+        return currentShouldRender;
+    }
+}

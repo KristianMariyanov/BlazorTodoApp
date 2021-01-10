@@ -20,9 +20,8 @@ namespace BlazorTodoApp.Tests
 
             // Assert
             cut.MarkupMatches(@"<ul class=""list-unstyled"">
-                  <li>
- <input id=""todo-0"" type=""checkbox"" >
-        <label  for=""todo-0"" style=""font-size: 20px"">Todo1</label>
+                  <li> <input id=""todo-0"" type=""checkbox"" >
+                            <label  for=""todo-0"" style=""font-size: 20px"">Todo1</label>
                     <button class=""btn btn-sm btn-link"">Edit</button>
                   </li>
                 </ul>");

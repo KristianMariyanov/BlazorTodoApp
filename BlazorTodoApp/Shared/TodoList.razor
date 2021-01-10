@@ -1,6 +1,4 @@
-﻿
-
-<ul class="list-unstyled">
+﻿<ul class="list-unstyled">
     @for (var i = 0; i < Todos.Count; i++)
     {
         var todo = Todos[i];
@@ -27,7 +25,7 @@
 
     protected override bool ShouldRender()
     {
-        Console.WriteLine("TodoList ShouldRender");
+        Console.WriteLine("TodoList Render");
         return base.ShouldRender(); ;
     }
 }

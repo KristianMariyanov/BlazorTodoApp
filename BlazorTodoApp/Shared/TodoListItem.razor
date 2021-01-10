@@ -64,14 +64,14 @@
     public override Task SetParametersAsync(ParameterView parameters)
     {
         // Uncomment for optimize
-        //if (parameters.TryGetValue<TodoItem>(nameof(TodoListItem.Todo), out var newTodo) && newTodo != null)
-        //{
-        //    if (Todo != null && (newTodo.IsDone != Todo.IsDone || newTodo.Title != Todo.Title))
-        //    {
-        //        // allow render the component when it's changed from outside
-        //        shouldRender = true;
-        //    }
-        //}
+        if (parameters.TryGetValue<TodoItem>(nameof(TodoListItem.Todo), out var newTodo) && newTodo != null)
+        {
+            if (Todo != null && (newTodo.IsDone != Todo.IsDone || newTodo.Title != Todo.Title))
+            {
+                // allow render the component when it's changed from outside
+                shouldRender = true;
+            }
+        }
 
         return base.SetParametersAsync(parameters);
     }
@@ -84,7 +84,14 @@
 
         var currentShouldRender = base.ShouldRender();
 
-        Console.WriteLine("TodoListItem ShouldRender " + currentShouldRender);
+        if (currentShouldRender)
+        {
+            Console.WriteLine("TodoListItem Render");
+        }
+        else
+        {
+            Console.WriteLine("TodoListItem Render Skipped");
+        }
         return currentShouldRender;
     }
 }

@@ -3,6 +3,7 @@ using Xunit;
 using BlazorTodoApp.Shared;
 using BlazorTodoApp.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorTodoApp.Tests
 {
@@ -25,6 +26,23 @@ namespace BlazorTodoApp.Tests
                     <button class=""btn btn-sm btn-link"">Edit</button>
                   </li>
                 </ul>");
+        }
+
+
+        [Fact]
+        public void CheckTodoItem_ShouldSetItsStatusToDone()
+        {
+            // Arrange
+            using var ctx = new TestContext();
+            var todo = new TodoItem { Title = "Todo1" };
+
+            // Act
+            var cut = ctx.RenderComponent<TodoList>(
+                ComponentParameter.CreateParameter("Todos", new List<TodoItem>() { todo }));
+            cut.Find("#todo-0").Change(new ChangeEventArgs() { Value = true });
+
+            // Assert
+            Assert.True(todo.IsDone);
         }
     }
 }
